@@ -2,9 +2,11 @@
   "name": "feide-provider-next-auth",
   "version": "1.0.0",
   "description": "FEIDE Provider for NextAuth (now Auth.js).",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
