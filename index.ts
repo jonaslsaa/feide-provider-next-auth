@@ -34,7 +34,7 @@ function createScopeQuery(scope: string[]) {
 */
 export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
   options: FeideProviderOptions,
-  profileHandle?: (profile: FeideOAuthProfileRequired | TScopeReturn) => Awaitable<User>,
+  profileHandler?: (profile: FeideOAuthProfileRequired | TScopeReturn) => Awaitable<User>,
   scopes?: string[],
   params?: Record<string, any>
 ): OAuthConfig<FeideOAuthProfileRequired | TScopeReturn> {
@@ -61,7 +61,7 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
     };
   }
 
-  const use_profileHandle = profileHandle ?? default_profileHandle;
+  const use_profileHandle = profileHandler ?? default_profileHandle;
 
   return {
     id: "feide",
