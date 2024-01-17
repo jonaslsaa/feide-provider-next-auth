@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 
-import type { OAuthProviderButtonStyles, Provider } from "next-auth/providers/index";
+
+import type { OAuthProviderButtonStyles, OAuthConfig } from "next-auth/providers/index";
 
 type FeideProviderOptions = {
   clientId: string;
@@ -10,7 +8,14 @@ type FeideProviderOptions = {
   style?: OAuthProviderButtonStyles
 }
 
-export function FeideProvider(options: FeideProviderOptions): Provider {
+type FeideOAuthProfile = {
+  sub: string;
+  name: string;
+  email: string;
+  picture: string;
+}
+
+export function FeideProvider(options: FeideProviderOptions): OAuthConfig<FeideOAuthProfile> {
   const style = options.style ?? {
     logo: "icons/blaa_feide.svg",
     logoDark: "icons/hvit_feide.svg",
@@ -29,16 +34,15 @@ export function FeideProvider(options: FeideProviderOptions): Provider {
       params: { scope: "email openid userid profile groups" }
     },
     checks: ["pkce", "state"],
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    profile(profile: any) {
+    profile(profile) {
       if (!profile.sub || !profile.name || !profile.email || !profile.picture) {
         console.error("Invalid profile, but continuing:", profile);
       }
       return {
-        id: String(profile.sub!),
-        name: profile.name!,
-        email: profile.email!,
-        image: profile.picture!,
+        id: String(profile.sub),
+        name: profile.name,
+        email: profile.email,
+        image: profile.picture,
       }
     },
     style: style,
