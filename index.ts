@@ -17,8 +17,8 @@ type FeideOAuthProfile = {
 
 export function FeideProvider(options: FeideProviderOptions): OAuthConfig<FeideOAuthProfile> {
   const style = options.style ?? {
-    logo: "icons/blaa_feide.svg",
-    logoDark: "icons/hvit_feide.svg",
+    logo: "https://raw.githubusercontent.com/TheVoxcraft/feide-provider-next-auth/1.0.0/icons/blaa_feide.svg",
+    logoDark: "https://raw.githubusercontent.com/TheVoxcraft/feide-provider-next-auth/1.0.0/icons/hvit_feide.svg",
     bg: "#fff",
     text: "#1F4698",
     bgDark: "#1F4698",
