@@ -1,0 +1,25 @@
+{
+  "name": "feide-provider-next-auth",
+  "version": "1.0.0",
+  "description": "FEIDE Provider for NextAuth (now Auth.js).",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheVoxcraft/feide-provider-next-auth.git"
+  },
+  "keywords": [
+    "next-auth"
+  ],
+  "author": "jonaslsa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheVoxcraft/feide-provider-next-auth/issues"
+  },
+  "homepage": "https://github.com/TheVoxcraft/feide-provider-next-auth#readme",
+  "devDependencies": {
+    "next-auth": "^4.24.5"
+  }
+}
