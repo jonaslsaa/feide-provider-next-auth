@@ -27,8 +27,8 @@ function createScopeQuery(scope: string[]) {
  * Feide Provider for NextAuth.js
  * 
  * @param options Required options for Feide Provider
- * @param profileHandle Optional function to creation of User from Feide Profile
- * @param scopes Custoom scopes for Feide Provider (default: ["openid", "userid"]), use `profileHandle` and `TScopeReturn` when using custom scopes
+ * @param profileHandle Function to transform Feide Provider profile to NextAuth.js User object
+ * @param scopes Custom scopes for Feide Provider (default: ["openid", "userid"]), use `profileHandle` and `TScopeReturn` when using custom scopes
  * @param params Optional params for Feide Provider
  * @generic TScopeReturn Object with custom values returned from Feide Provider (when using custom scopes)
 */
@@ -51,6 +51,8 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
   const use_scope = scopes ?? ["openid", "userid"];
 
   const default_profileHandle = (profile: FeideOAuthProfileRequired | TScopeReturn) => {
+    console.error("No profileHandle function provided for Feide Provider, using default profileHandle function. This means that user will be lacking most fields.");
+    console.log("Profile from Feide Provider:", profile);
     return {
       id: String(profile.sub),
       name: null,
