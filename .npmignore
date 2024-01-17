@@ -6,3 +6,8 @@ node_modules/
 icons/
 
 *.tgz
+
+tsconfig.json
+
+package-lock.json
+pnpm-lock.yaml
