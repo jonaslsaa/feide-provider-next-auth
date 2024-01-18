@@ -3,7 +3,7 @@
 import { Awaitable, User } from "next-auth/core/types";
 import type { OAuthProviderButtonStyles, OAuthConfig } from "next-auth/providers/index";
 
-type FeideProviderBaseOptions = {
+export type FeideProviderBaseOptions = {
   clientId: string;
   clientSecret: string;
   style?: OAuthProviderButtonStyles;
@@ -11,7 +11,7 @@ type FeideProviderBaseOptions = {
   params?: Record<string, any>;
 }
 
-type FeideOAuthProfileRequired = {
+export type FeideRequiredClaims = {
   iss: string;
   jti: string;
   aud: string;
@@ -29,14 +29,14 @@ function createScopeQuery(scope: string[]) {
  * Feide Provider for NextAuth.js
  * 
  * @param options Options for Feide Provider
- * @option profileHandle Function to transform Feide Provider profile to NextAuth.js User object
- * @option scopes Extra custom scopes for Feide Provider (base: ["openid", "userid"]), use `profileHandle` and `TScopeReturn` when using custom scopes
+ * @option profileHandler Function to transform Feide Provider profile to NextAuth.js User object
+ * @option scopes Extra custom scopes for Feide Provider (base: ["openid", "userid"]), use `profileHandle` and `CustomScopeClaims` when using custom scopes and claims
  * @option params Optional params for Feide Provider
- * @generic TScopeReturn Object with custom values returned from Feide Provider (when using custom scopes)
+ * @generic CustomScopeClaims Object with custom values returned from Feide Provider (when using custom scopes)
 */
-export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
-  options: FeideProviderBaseOptions & { profileHandler?: (profile: FeideOAuthProfileRequired & TScopeReturn) => Awaitable<User> }
-): OAuthConfig<FeideOAuthProfileRequired & TScopeReturn> {
+export function FeideProvider<CustomScopeClaims extends Record<string, any> = {}>(
+  options: FeideProviderBaseOptions & { profileHandler?: (profile: FeideRequiredClaims & CustomScopeClaims) => Awaitable<User> }
+): OAuthConfig<FeideRequiredClaims & CustomScopeClaims> {
   
   const use_style = options.style ?? {
     logo: "https://raw.githubusercontent.com/TheVoxcraft/feide-provider-next-auth/1.0.0/icons/blaa_feide.svg",
@@ -49,7 +49,7 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
 
   const use_scope = ["openid", "userid", ...(options.scopes ?? [])];
 
-  const default_profileHandle = (profile: FeideOAuthProfileRequired & TScopeReturn) => {
+  const default_profileHandle = (profile: FeideRequiredClaims & CustomScopeClaims) => {
     console.error("No profileHandle function provided for Feide Provider, using default profileHandle function. This means that user will be lacking most fields.");
     console.log("Profile from Feide Provider:", profile);
     return {
