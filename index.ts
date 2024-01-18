@@ -3,10 +3,12 @@
 import { Awaitable, User } from "next-auth/core/types";
 import type { OAuthProviderButtonStyles, OAuthConfig } from "next-auth/providers/index";
 
-type FeideProviderOptions = {
+type FeideProviderBaseOptions = {
   clientId: string;
   clientSecret: string;
-  style?: OAuthProviderButtonStyles
+  style?: OAuthProviderButtonStyles;
+  scopes?: string[];
+  params?: Record<string, any>;
 }
 
 type FeideOAuthProfileRequired = {
@@ -33,10 +35,7 @@ function createScopeQuery(scope: string[]) {
  * @generic TScopeReturn Object with custom values returned from Feide Provider (when using custom scopes)
 */
 export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
-  options: FeideProviderOptions,
-  profileHandler?: (profile: FeideOAuthProfileRequired | TScopeReturn) => Awaitable<User>,
-  scopes?: string[],
-  params?: Record<string, any>
+  options: FeideProviderBaseOptions & { profileHandler?: (profile: FeideOAuthProfileRequired | TScopeReturn) => Awaitable<User> }
 ): OAuthConfig<FeideOAuthProfileRequired | TScopeReturn> {
   
   const use_style = options.style ?? {
@@ -48,7 +47,7 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
     textDark: "#fff",
   };
 
-  const use_scope = scopes ?? ["openid", "userid"];
+  const use_scope = options.scopes ?? ["openid", "userid"];
 
   const default_profileHandle = (profile: FeideOAuthProfileRequired | TScopeReturn) => {
     console.error("No profileHandle function provided for Feide Provider, using default profileHandle function. This means that user will be lacking most fields.");
@@ -61,7 +60,7 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
     };
   }
 
-  const use_profileHandle = profileHandler ?? default_profileHandle;
+  const use_profileHandle = options.profileHandler ?? default_profileHandle;
 
   return {
     id: "feide",
@@ -72,7 +71,7 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
       url: "https://auth.dataporten.no/oauth/authorization",
       params: {
         scope: createScopeQuery(use_scope),
-        ...params,
+        ...options.params,
       }
     },
     checks: ["pkce", "state"],
