@@ -28,15 +28,15 @@ function createScopeQuery(scope: string[]) {
 /**
  * Feide Provider for NextAuth.js
  * 
- * @param options Required options for Feide Provider
- * @param profileHandle Function to transform Feide Provider profile to NextAuth.js User object
- * @param scopes Custom scopes for Feide Provider (default: ["openid", "userid"]), use `profileHandle` and `TScopeReturn` when using custom scopes
- * @param params Optional params for Feide Provider
+ * @param options Options for Feide Provider
+ * @option profileHandle Function to transform Feide Provider profile to NextAuth.js User object
+ * @option scopes Custom scopes for Feide Provider (default: ["openid", "userid"]), use `profileHandle` and `TScopeReturn` when using custom scopes
+ * @option params Optional params for Feide Provider
  * @generic TScopeReturn Object with custom values returned from Feide Provider (when using custom scopes)
 */
 export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
-  options: FeideProviderBaseOptions & { profileHandler?: (profile: FeideOAuthProfileRequired | TScopeReturn) => Awaitable<User> }
-): OAuthConfig<FeideOAuthProfileRequired | TScopeReturn> {
+  options: FeideProviderBaseOptions & { profileHandler?: (profile: FeideOAuthProfileRequired & TScopeReturn) => Awaitable<User> }
+): OAuthConfig<FeideOAuthProfileRequired & TScopeReturn> {
   
   const use_style = options.style ?? {
     logo: "https://raw.githubusercontent.com/TheVoxcraft/feide-provider-next-auth/1.0.0/icons/blaa_feide.svg",
@@ -49,7 +49,7 @@ export function FeideProvider<TScopeReturn extends Record<string, any> = {}>(
 
   const use_scope = options.scopes ?? ["openid", "userid"];
 
-  const default_profileHandle = (profile: FeideOAuthProfileRequired | TScopeReturn) => {
+  const default_profileHandle = (profile: FeideOAuthProfileRequired & TScopeReturn) => {
     console.error("No profileHandle function provided for Feide Provider, using default profileHandle function. This means that user will be lacking most fields.");
     console.log("Profile from Feide Provider:", profile);
     return {
