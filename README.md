@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
 };
 ```
 
-## Feide callback
+## NextAuth Callback URL for Feide
 
 `https://[YOUR_DOMAIN]/api/auth/callback/feide`
 
