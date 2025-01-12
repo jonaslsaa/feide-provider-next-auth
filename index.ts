@@ -11,6 +11,7 @@ export type FeideProviderBaseOptions = {
   params?: Record<string, any>;
 }
 
+// https://docs.feide.no/reference/tokens.html
 export type FeideRequiredClaims = {
   iss: string;
   jti: string;
@@ -39,8 +40,8 @@ export function FeideProvider<CustomScopeClaims extends Record<string, any> = {}
 ): OAuthConfig<FeideRequiredClaims & CustomScopeClaims> {
   
   const use_style = options.style ?? {
-    logo: "https://raw.githubusercontent.com/TheVoxcraft/feide-provider-next-auth/1.0.0/icons/blaa_feide.svg",
-    logoDark: "https://raw.githubusercontent.com/TheVoxcraft/feide-provider-next-auth/1.0.0/icons/hvit_feide.svg",
+    logo: "https://raw.githubusercontent.com/jonaslsaa/feide-provider-next-auth/1.0.0/icons/blaa_feide.svg",
+    logoDark: "https://raw.githubusercontent.com/jonaslsaa/feide-provider-next-auth/1.0.0/icons/hvit_feide.svg",
     bg: "#fff",
     text: "#1F4698",
     bgDark: "#1F4698",
