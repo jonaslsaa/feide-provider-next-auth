@@ -1,8 +1,10 @@
-# FEIDE Provider for NextAuth (now Auth.js)
+# Feide Provider for NextAuth (now Auth.js)
 
-Customizable Feide Provider for NextAuth for support for custom scopes and claims.
+Customizable [Feide](https://www.feide.no/) Provider for NextAuth for support for custom scopes and claims.
 
 ## Installation
+
+Install the provider from [npm](https://www.npmjs.com/package/feide-provider-next-auth).
 
 ```bash
 npm install feide-provider-next-auth
@@ -35,6 +37,8 @@ export const authOptions: NextAuthOptions = {
 `https://[YOUR_DOMAIN]/api/auth/callback/feide`
 
 ## Base feide scopes
+
+[OpenID Configuration](https://auth.dataporten.no/.well-known/openid-configuration)
 
 - openid
 - userid
